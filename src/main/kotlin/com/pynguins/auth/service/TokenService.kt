@@ -11,7 +11,6 @@ import java.security.interfaces.RSAPublicKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class TokenService {
     fun validateToken(token: String): DecodedJWT {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
