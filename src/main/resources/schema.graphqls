@@ -1,8 +1,17 @@
 type Query {
-    checkToken(token: String!): Token
+    checkToken(token: String!): Token!
 }
 
 type Token {
-    username: String
+    username: String!
+    firstName: String
+    lastName: String
+    fullName: String
+    email: String
+    roles: [Role!]!
+}
+
+type Role {
+    roleName: ID!
     roles: [String!]!
 }
