@@ -1,0 +1,8 @@
+type Query {
+    checkToken(token: String!): Token
+}
+
+type Token {
+    username: String
+    roles: [String!]!
+}
