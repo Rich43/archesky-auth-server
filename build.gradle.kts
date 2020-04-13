@@ -3,12 +3,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.2.6.RELEASE"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
+	id("com.jfrog.bintray") version "1.8.5"
 	kotlin("jvm") version "1.3.71"
 	kotlin("plugin.spring") version "1.3.71"
 }
 
 group = "com.pynguins"
-version = "0.0.1-SNAPSHOT"
+version = "1.3.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 val developmentOnly by configurations.creating
@@ -47,5 +48,25 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+	}
+}
+
+configure<com.jfrog.bintray.gradle.BintrayExtension> {
+	user = System.getenv("BINTRAY_USER")
+	key = System.getenv("BINTRAY_KEY")
+	pkg.apply {
+		repo = "pynguins"
+		name = "pynguins_auth_server"
+		userOrg = "pynguins"
+		setLicenses("BSD")
+		vcsUrl = "https://github.com/Rich43/pynguins_auth_server.git"
+		issueTrackerUrl = "https://github.com/Rich43/pynguins_auth_server/issues"
+		publish = true
+		publicDownloadNumbers = true
+
+		version.apply {
+			name = project.version.toString()
+			vcsTag = project.version.toString()
+		}
 	}
 }
