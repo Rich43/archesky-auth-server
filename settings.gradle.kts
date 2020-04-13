@@ -1,1 +1,1 @@
-rootProject.name = "auth"
+rootProject.name = "pynguins_auth_server"

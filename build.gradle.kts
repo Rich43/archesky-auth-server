@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.util.Date
+import java.text.SimpleDateFormat
 
 plugins {
 	id("org.springframework.boot") version "2.2.6.RELEASE"
@@ -56,17 +58,19 @@ configure<com.jfrog.bintray.gradle.BintrayExtension> {
 	key = System.getenv("BINTRAY_KEY")
 	pkg.apply {
 		repo = "pynguins"
-		name = "pynguins_auth_server"
+		name = rootProject.name
 		userOrg = "pynguins"
 		setLicenses("BSD")
-		vcsUrl = "https://github.com/Rich43/pynguins_auth_server.git"
-		issueTrackerUrl = "https://github.com/Rich43/pynguins_auth_server/issues"
+		vcsUrl = "https://github.com/Rich43/${rootProject.name}.git"
+		issueTrackerUrl = "https://github.com/Rich43/${rootProject.name}/issues"
 		publish = true
 		publicDownloadNumbers = true
 
 		version.apply {
 			name = project.version.toString()
+			desc = "${rootProject.name} ${project.version}"
 			vcsTag = project.version.toString()
+			released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())
 		}
 	}
 }
