@@ -1,4 +1,4 @@
-package com.pynguins.content.service
+package com.pynguins.auth.service
 
 import com.auth0.jwk.JwkProvider
 import com.auth0.jwk.UrlJwkProvider

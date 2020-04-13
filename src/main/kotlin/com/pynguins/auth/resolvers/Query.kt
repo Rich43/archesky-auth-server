@@ -4,7 +4,7 @@ package com.pynguins.auth.resolvers
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
 import com.pynguins.auth.types.Role
 import com.pynguins.auth.types.Token
-import com.pynguins.content.service.TokenService
+import com.pynguins.auth.service.TokenService
 import org.springframework.stereotype.Component
 
 @Component
