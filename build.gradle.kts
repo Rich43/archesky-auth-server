@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.Date
 import java.text.SimpleDateFormat
+import java.util.*
 
 plugins {
 	id("org.springframework.boot") version "2.2.6.RELEASE"
@@ -10,7 +10,7 @@ plugins {
 	kotlin("plugin.spring") version "1.3.71"
 }
 
-group = "com.pynguins"
+group = "com.pynguins.auth.server"
 version = "1.3.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
