@@ -1,4 +1,4 @@
-package com.pynguins.auth.types
+package com.pynguins.auth.server.types
 
 data class Token(
         val username: String,

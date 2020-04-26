@@ -1,10 +1,10 @@
 @file:Suppress("unused")
 
-package com.pynguins.auth.resolvers
+package com.pynguins.auth.server.resolvers
 import com.coxautodev.graphql.tools.GraphQLQueryResolver
-import com.pynguins.auth.types.Role
-import com.pynguins.auth.types.Token
-import com.pynguins.auth.service.TokenService
+import com.pynguins.auth.server.types.Role
+import com.pynguins.auth.server.types.Token
+import com.pynguins.auth.server.service.TokenService
 import org.springframework.stereotype.Component
 
 @Component
