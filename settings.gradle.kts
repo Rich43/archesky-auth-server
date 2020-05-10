@@ -1,1 +1,1 @@
-rootProject.name = "pynguins_auth_server"
+rootProject.name = "archesky-auth-server"

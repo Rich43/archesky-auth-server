@@ -1,4 +1,4 @@
-package com.pynguins.auth.server
+package com.archesky.auth.server
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

@@ -1,4 +1,4 @@
-package com.pynguins.auth.server
+package com.archesky.auth.server
 
 import graphql.GraphQLError
 import graphql.kickstart.execution.error.GraphQLErrorHandler

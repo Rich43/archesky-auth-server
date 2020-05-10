@@ -1,16 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.text.SimpleDateFormat
-import java.util.*
 
 plugins {
 	id("org.springframework.boot") version "2.2.6.RELEASE"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
-	id("com.jfrog.bintray") version "1.8.5"
 	kotlin("jvm") version "1.3.71"
 	kotlin("plugin.spring") version "1.3.71"
 }
 
-group = "com.pynguins.auth.server"
+group = "com.archesky.auth.server"
 version = "1.3.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -50,27 +47,5 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
-	}
-}
-
-configure<com.jfrog.bintray.gradle.BintrayExtension> {
-	user = System.getenv("BINTRAY_USER")
-	key = System.getenv("BINTRAY_KEY")
-	pkg.apply {
-		repo = "pynguins"
-		name = rootProject.name
-		userOrg = "pynguins"
-		setLicenses("BSD")
-		vcsUrl = "https://github.com/Rich43/${rootProject.name}.git"
-		issueTrackerUrl = "https://github.com/Rich43/${rootProject.name}/issues"
-		publish = true
-		publicDownloadNumbers = true
-
-		version.apply {
-			name = project.version.toString()
-			desc = "${rootProject.name} ${project.version}"
-			vcsTag = project.version.toString()
-			released = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(Date())
-		}
 	}
 }
