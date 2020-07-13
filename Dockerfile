@@ -1,7 +1,9 @@
 FROM openjdk:latest
 COPY . /app
 WORKDIR /app
-RUN ./gradlew wrapper
+RUN apk update
+RUN apk add gradle
+RUN gradle wrapper
 RUN ./gradlew clean bootJar
 WORKDIR /app/build/libs
 RUN mv -v *.jar auth_server.jar
