@@ -1,7 +1,12 @@
 FROM openjdk:latest
 COPY . /app
 WORKDIR /app
-RUN ./gradlew wrapper
+RUN yum update -y
+RUN yum install -y which unzip zip
+RUN curl -s "https://get.sdkman.io" | bash
+RUN source "/root/.sdkman/bin/sdkman-init.sh"
+RUN sdk install gradle
+RUN gradle wrapper
 RUN ./gradlew clean bootJar
 WORKDIR /app/build/libs
 RUN mv -v *.jar auth_server.jar
