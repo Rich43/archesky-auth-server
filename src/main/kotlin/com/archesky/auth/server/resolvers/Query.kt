@@ -4,7 +4,7 @@ package com.archesky.auth.server.resolvers
 import com.archesky.auth.server.service.TokenService
 import com.archesky.auth.server.types.Role
 import com.archesky.auth.server.types.Token
-import com.coxautodev.graphql.tools.GraphQLQueryResolver
+import graphql.kickstart.tools.GraphQLQueryResolver
 import org.springframework.stereotype.Component
 
 @Component
