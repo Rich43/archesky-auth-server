@@ -9,6 +9,10 @@ plugins {
 	kotlin("plugin.spring") version "1.3.71"
 }
 
+buildscript {
+	tasks.findByName("build")?.dependsOn("bootJar")
+}
+
 group = "com.archesky.auth.server"
 version = "0.0.${getenv().getOrDefault("GITHUB_RUN_ID", "1")}-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -39,6 +43,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+	testImplementation("com.graphql-java-kickstart:graphql-spring-boot-test:7.1.0")
 }
 
 tasks.withType<Test> {
