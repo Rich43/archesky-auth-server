@@ -1,14 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.lang.System.getenv
 
 plugins {
 	id("org.springframework.boot") version "2.2.6.RELEASE"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
+	`maven-publish`
 	kotlin("jvm") version "1.3.71"
 	kotlin("plugin.spring") version "1.3.71"
 }
 
 group = "com.archesky.auth.server"
-version = "1.3.0"
+version = "0.0.${getenv().getOrDefault("GITHUB_RUN_ID", "1")}-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 val developmentOnly by configurations.creating
@@ -47,5 +49,24 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+	}
+}
+
+publishing {
+	repositories {
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/Rich43/archesky-auth-server")
+			credentials {
+				username = getenv().getOrDefault("GITHUB_ACTOR", "Rich43")
+				password = getenv()["GITHUB_TOKEN"]
+			}
+		}
+	}
+	publications {
+		create<MavenPublication>("gpr") {
+			from(components["java"])
+			artifact(tasks.getByName("bootJar"))
+		}
 	}
 }
