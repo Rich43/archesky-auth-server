@@ -20,13 +20,55 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - run: gradle wrapper
-    - uses: eskatos/gradle-command-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        arguments: clean build bootJar publish
+      - name: Checkout code
+        id: checkout_code
+        uses: actions/checkout@v2
+      - name: Configure Java
+        id: configure_java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Fix gradle wrapper
+        id: fix_gradle_wrapper
+        run: gradle wrapper
+      - name: Publish artifact
+        id: publish_artifact
+        uses: eskatos/gradle-command-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: clean build bootJar publish
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.run_id }}
+          release_name: Release ${{ github.run_id }}
+          body_path: README.md
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: build/libs/archesky-auth-server-0.0.${{ github.run_id }}-SNAPSHOT.jar
+          asset_name: archesky-auth-server-0.0.${{ github.run_id }}-SNAPSHOT.jar
+          asset_auth_type: application/java-archive
+      - name: Build and Publish latest Docker image - latest
+        id: build_publish_docker_latest
+        uses: VaultVulp/gp-docker-action@1.1.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          image-name: archesky-auth-server
+      - name: Build and Publish latest Docker image - versioned
+        id: build_publish_docker_versioned
+        uses: VaultVulp/gp-docker-action@1.1.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          image-name: archesky-auth-server
+          image-tag: 0.0.${{ github.run_id }}-SNAPSHOT
