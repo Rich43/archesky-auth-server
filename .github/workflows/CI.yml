@@ -58,13 +58,7 @@ jobs:
           asset_path: build/libs/archesky-auth-server-0.0.${{ github.run_id }}-SNAPSHOT.jar
           asset_name: archesky-auth-server-0.0.${{ github.run_id }}-SNAPSHOT.jar
           asset_content_type: application/java-archive
-      - name: Build and Publish latest Docker image - latest
-        id: build_publish_docker_latest
-        uses: VaultVulp/gp-docker-action@1.1.6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          image-name: archesky-auth-server
-      - name: Build and Publish latest Docker image - versioned
+      - name: Build and Publish latest Docker image
         id: build_publish_docker_versioned
         uses: VaultVulp/gp-docker-action@1.1.6
         with:
