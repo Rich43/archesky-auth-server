@@ -1,4 +1,4 @@
-package com.archesky.auth.server
+package com.archesky.auth.server.configuration
 
 import org.apache.catalina.Context
 import org.apache.catalina.connector.Connector

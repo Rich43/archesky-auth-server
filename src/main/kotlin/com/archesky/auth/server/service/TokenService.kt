@@ -1,6 +1,6 @@
 package com.archesky.auth.server.service
 
-import com.archesky.auth.server.ApplicationProperties
+import com.archesky.auth.server.configuration.ApplicationProperties
 import com.auth0.jwk.JwkProvider
 import com.auth0.jwk.UrlJwkProvider
 import com.auth0.jwt.JWT
