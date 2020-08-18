@@ -8,6 +8,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import graphql.GraphQLException
 import org.springframework.stereotype.Service
+import java.lang.String.format
 import java.net.URL
 import java.security.interfaces.RSAPublicKey
 import java.text.SimpleDateFormat
@@ -15,17 +16,17 @@ import java.util.*
 
 @Service
 class TokenService(val properties: ApplicationProperties) {
-    fun validateToken(token: String): DecodedJWT {
+    fun validateToken(token: String, domain: String): DecodedJWT {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         val jwt = JWT.decode(token)
-        val provider: JwkProvider = UrlJwkProvider(URL(properties.certificateURL))
+        val provider: JwkProvider = UrlJwkProvider(URL(format(properties.certificateURL, domain)))
         val jwk = provider[jwt.keyId]
         val algorithm: Algorithm = Algorithm.RSA256(jwk.publicKey as RSAPublicKey, null)
         algorithm.verify(jwt)
-        if (jwt.issuer != properties.issuer) {
+        if (jwt.issuer != format(properties.issuer, domain)) {
             throw GraphQLException(
                     "Token validation failed: " +
-                            "Invalid issuer (Expected: '${properties.issuer}' but got '${jwt.issuer}')"
+                            "Invalid issuer (Expected: '${format(properties.issuer, domain)}' but got '${jwt.issuer}')"
             )
         }
         if (jwt.expiresAt.before(Calendar.getInstance().time)) {

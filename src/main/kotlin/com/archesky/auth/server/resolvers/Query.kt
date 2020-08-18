@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class Query(val tokenService: TokenService): GraphQLQueryResolver {
     @Suppress("UNCHECKED_CAST")
     fun checkToken(token: String): Token {
-        val validatedToken = tokenService.validateToken(token)
+        val validatedToken = tokenService.validateToken(token, "localhost")
         val roleList = ArrayList<Role>()
         for (role in validatedToken.claims["realm_access"]!!.asMap()) {
             roleList.add(Role("realm_access", (role.value as ArrayList<String>)))
