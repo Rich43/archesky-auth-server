@@ -13,11 +13,17 @@ class Query(val tokenService: TokenService): GraphQLQueryResolver {
     fun checkToken(token: String): Token {
         val validatedToken = tokenService.validateToken(token, "localhost")
         val roleList = ArrayList<Role>()
-        for (role in validatedToken.claims["realm_access"]!!.asMap()) {
-            roleList.add(Role("realm_access", (role.value as ArrayList<String>)))
+        val realmAccess = "realm_access"
+        if (validatedToken.claims.containsKey(realmAccess)) {
+            for (role in validatedToken.claims[realmAccess]!!.asMap()) {
+                roleList.add(Role(realmAccess, (role.value as ArrayList<String>)))
+            }
         }
-        for (role in validatedToken.claims["resource_access"]!!.asMap()) {
-            roleList.add(Role(role.key, (role.value as LinkedHashMap<String, ArrayList<String>>)["roles"]!!))
+        val resourceAccess = "resource_access"
+        if (validatedToken.claims.containsKey(resourceAccess)) {
+            for (role in validatedToken.claims[resourceAccess]!!.asMap()) {
+                roleList.add(Role(role.key, (role.value as LinkedHashMap<String, ArrayList<String>>)["roles"]!!))
+            }
         }
         return Token(
                 validatedToken.getClaim("preferred_username").asString(),
