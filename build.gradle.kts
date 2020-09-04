@@ -36,6 +36,7 @@ dependencies {
 	implementation("com.graphql-java-kickstart:graphql-kickstart-spring-boot-starter-tools:7.1.0")
 	implementation("com.auth0:java-jwt:3.10.2")
 	implementation("com.auth0:jwks-rsa:0.11.0")
+	implementation("com.google.guava:guava:29.0-jre")
 	runtimeOnly("com.graphql-java-kickstart:altair-spring-boot-starter:7.1.0")
 	runtimeOnly("com.graphql-java-kickstart:graphiql-spring-boot-starter:7.1.0")
 	runtimeOnly("com.graphql-java-kickstart:voyager-spring-boot-starter:7.1.0")
