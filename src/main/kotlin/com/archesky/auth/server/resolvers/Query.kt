@@ -8,6 +8,7 @@ import graphql.kickstart.servlet.context.DefaultGraphQLServletContext
 import graphql.kickstart.tools.GraphQLQueryResolver
 import graphql.schema.DataFetchingEnvironment
 import org.springframework.stereotype.Component
+import java.net.MalformedURLException
 import java.net.URL
 
 @Component
@@ -28,6 +29,8 @@ class Query(val tokenService: TokenService): GraphQLQueryResolver {
         try {
             return URL(request.getHeader("Origin")).host
         } catch (e: IllegalStateException) {
+            // Do nothing
+        } catch (e: MalformedURLException) {
             // Do nothing
         }
         return "localhost"
