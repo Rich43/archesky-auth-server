@@ -17,7 +17,7 @@ class Query(val tokenService: TokenService): GraphQLQueryResolver {
         val defaultContext = dataFetchingEnvironment.getContext<DefaultGraphQLServletContext>()
         val request = defaultContext.httpServletRequest;
         try {
-            return request.getHeader("Hostname")
+            return request.getHeader("hostname")
         } catch (e: IllegalStateException) {
             // Do nothing
         }
