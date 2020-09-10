@@ -12,7 +12,7 @@ import java.net.URL
 
 @Component
 class Query(val tokenService: TokenService): GraphQLQueryResolver {
-    fun getHost(dataFetchingEnvironment: DataFetchingEnvironment): String {
+    private fun getHost(dataFetchingEnvironment: DataFetchingEnvironment): String {
         val defaultContext = dataFetchingEnvironment.getContext<DefaultGraphQLServletContext>()
         val request = defaultContext.httpServletRequest;
         try {
