@@ -4,14 +4,33 @@ package com.archesky.auth.server.resolvers
 import com.archesky.auth.server.service.TokenService
 import com.archesky.auth.server.types.Role
 import com.archesky.auth.server.types.Token
+import graphql.kickstart.servlet.context.DefaultGraphQLServletContext
 import graphql.kickstart.tools.GraphQLQueryResolver
+import graphql.schema.DataFetchingEnvironment
 import org.springframework.stereotype.Component
+import java.net.URL
 
 @Component
 class Query(val tokenService: TokenService): GraphQLQueryResolver {
+    fun getHost(dataFetchingEnvironment: DataFetchingEnvironment): String {
+        val defaultContext = dataFetchingEnvironment.getContext<DefaultGraphQLServletContext>()
+        val request = defaultContext.httpServletRequest;
+        try {
+            return request.getHeader("Host")
+        } catch (e: IllegalStateException) {
+            // Do nothing
+        }
+        try {
+            return URL(request.getHeader("Origin")).host
+        } catch (e: IllegalStateException) {
+            // Do nothing
+        }
+        return "localhost"
+    }
+
     @Suppress("UNCHECKED_CAST")
-    fun checkToken(token: String): Token {
-        val validatedToken = tokenService.validateToken(token, "localhost")
+    fun checkToken(token: String, dataFetchingEnvironment: DataFetchingEnvironment): Token {
+        val validatedToken = tokenService.validateToken(token, getHost(dataFetchingEnvironment))
         val roleList = ArrayList<Role>()
         val realmAccess = "realm_access"
         if (validatedToken.claims.containsKey(realmAccess)) {
