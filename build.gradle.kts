@@ -25,13 +25,14 @@ configurations {
 }
 
 repositories {
-	mavenCentral()
+	jcenter()
 	maven("https://maven.pkg.github.com/Rich43/archesky-common-library") {
 		credentials {
 			username = "Rich43"
 			password = getenv()["GITHUB_TOKEN"]
 		}
 	}
+	mavenCentral()
 }
 
 dependencies {
