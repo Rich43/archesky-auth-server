@@ -26,6 +26,12 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven("https://maven.pkg.github.com/Rich43/archesky-common-library") {
+		credentials {
+			username = "Rich43"
+			password = getenv()["GITHUB_TOKEN"]
+		}
+	}
 }
 
 dependencies {
@@ -37,6 +43,7 @@ dependencies {
 	implementation("com.auth0:java-jwt:3.10.2")
 	implementation("com.auth0:jwks-rsa:0.11.0")
 	implementation("com.google.guava:guava:29.0-jre")
+	implementation("com.archesky.auth.library:archesky-auth-library:0.0.184755471-SNAPSHOT")
 	runtimeOnly("com.graphql-java-kickstart:altair-spring-boot-starter:7.1.0")
 	runtimeOnly("com.graphql-java-kickstart:graphiql-spring-boot-starter:7.1.0")
 	runtimeOnly("com.graphql-java-kickstart:voyager-spring-boot-starter:7.1.0")
