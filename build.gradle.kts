@@ -25,6 +25,12 @@ repositories {
 			password = getenv()["GITHUB_TOKEN"]
 		}
 	}
+	maven("https://maven.pkg.github.com/Rich43/archesky-apollo-library") {
+		credentials {
+			username = "Rich43"
+			password = getenv()["GITHUB_TOKEN"]
+		}
+	}
 	mavenCentral()
 }
 
@@ -37,6 +43,7 @@ dependencies {
 	implementation("com.auth0:java-jwt:3.10.2")
 	implementation("com.auth0:jwks-rsa:0.11.0")
 	implementation("com.google.guava:guava:29.0-jre")
+	implementation("com.archesky.apollo.library:archesky-apollo-library:0.0.279147825-SNAPSHOT")
 	implementation("com.archesky.ssl.library:archesky-ssl-library:0.0.283041548-SNAPSHOT")
 	runtimeOnly("com.graphql-java-kickstart:altair-spring-boot-starter:7.1.0")
 	runtimeOnly("com.graphql-java-kickstart:graphiql-spring-boot-starter:7.1.0")
