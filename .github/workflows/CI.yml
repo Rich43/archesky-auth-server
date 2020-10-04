@@ -63,3 +63,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           image-name: archesky-auth-server
           image-tag: 0.0.${{ github.run_id }}-SNAPSHOT
+      - name: Build and Publish docker image to Google Container Registry
+        uses: RafikFarhad/push-to-gcr-github-action@v3
+        with:
+          gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+          registry: gcr.io
+          project_id: archesky
+          image_name: archesky-auth-server
