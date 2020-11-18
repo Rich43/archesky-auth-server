@@ -56,15 +56,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: build/libs/archesky-auth-server-0.0.${{ github.run_id }}-SNAPSHOT.jar
-          asset_name: archesky-auth-server-0.0.${{ github.run_id }}-SNAPSHOT.jar
+          asset_path: build/libs/${{ github.repository.name }}-0.0.${{ github.run_id }}-SNAPSHOT.jar
+          asset_name: ${{ github.repository.name }}-0.0.${{ github.run_id }}-SNAPSHOT.jar
           asset_content_type: application/java-archive
       - name: Build and Publish Docker image
         id: build_publish_docker_versioned
         uses: VaultVulp/gp-docker-action@1.1.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          image-name: archesky-auth-server
+          image-name: ${{ github.repository.name }}
           image-tag: 0.0.${{ github.run_id }}-SNAPSHOT
       - name: Login to Docker Hub
         id: login_docker_hub
@@ -80,5 +80,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/archesky-auth-server:latest
-            ${{ secrets.DOCKER_USERNAME }}/archesky-auth-server:0.0.${{ github.run_id }}-SNAPSHOT
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.repository.name }}:latest
+            ${{ secrets.DOCKER_USERNAME }}/${{ github.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
