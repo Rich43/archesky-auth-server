@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: auth-server
+  name: auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: auth-server
+  strategy: { }
+  template:
+    metadata:
+      labels:
+        io.kompose.service: auth-server
+    spec:
+      containers:
+        - env:
+            - name: openid.connect.certificate.url
+              value: http://keycloak-server:8080/auth/realms/archesky_%s/protocol/openid-connect/certs
+            - name: openid.connect.issuer
+              value: http://localhost:3000/auth/realms/archesky_%s
+          image: docker.io/pynguins/archesky-auth-server:latest
+          imagePullPolicy: ""
+          name: auth-server
+          ports:
+            - containerPort: 9090
+            - containerPort: 9443
+          resources: { }
+      restartPolicy: Always
+      serviceAccountName: ""
