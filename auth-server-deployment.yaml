@@ -18,7 +18,7 @@ spec:
       containers:
         - env:
             - name: openid.connect.certificate.url
-              value: http://keycloak-server:8080/auth/realms/archesky_%s/protocol/openid-connect/certs
+              value: http://keycloak-server:8180/auth/realms/archesky_%s/protocol/openid-connect/certs
             - name: openid.connect.issuer
               value: http://localhost:3000/auth/realms/archesky_%s
           image: docker.io/pynguins/archesky-auth-server:latest
