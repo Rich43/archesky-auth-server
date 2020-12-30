@@ -29,12 +29,6 @@ jobs:
       - name: Set up Docker Buildx
         id: setup_build_x
         uses: docker/setup-buildx-action@v1
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig save archesky-cluster
       - name: Fix gradle wrapper
         id: fix_gradle_wrapper
         run: gradle wrapper
@@ -88,9 +82,16 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:0.0.${{ github.run_id }}-SNAPSHOT
-      - name: Delete old deployment
-        id: delete_deploy
-        run: kubectl delete -n default deployment auth-server
-      - name: Deploy
-        id: deploy
-        run: kubectl apply -f ./auth-server-deployment.yaml
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd
+            git clone https://github.com/Rich43/archesky-docker
+            cd archesky-docker
+            ./run.sh
+            cd
+            rm -rfv archesky-docker
